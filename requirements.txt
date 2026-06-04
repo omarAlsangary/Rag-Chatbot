@@ -4,3 +4,6 @@ langchain-community
 chromadb
 pymupdf
 python-dotenv
+gunicorn
+fastapi
+uvicorn

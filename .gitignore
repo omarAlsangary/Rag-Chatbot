@@ -1,0 +1,29 @@
+.vercel
+.env.local
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+venv/
+.venv/
+node_modules/
+.next/
+dist/
+build/
+__pycache__/
+*.pyc
+.env
+.DS_Store

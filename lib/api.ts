@@ -1,14 +1,12 @@
 import { Message, UploadResponse, ChatResponse } from "./types";
 
-/**
- * Uploads a PDF file to the backend serverless function for parsing and FAISS ingestion.
- * Throws an Error with the backend's message on non-2xx responses.
- */
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
+
 export async function uploadPDF(file: File): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch("/api/upload", {
+  const response = await fetch(`${API_BASE}/api/upload`, {
     method: "POST",
     body: formData,
   });
@@ -29,16 +27,12 @@ export async function uploadPDF(file: File): Promise<UploadResponse> {
   return response.json();
 }
 
-/**
- * Sends a chat message to the backend RAG pipeline.
- * Throws an Error with the backend's message on non-2xx responses.
- */
 export async function sendMessage(
   sessionId: string,
   question: string,
   history: Message[]
 ): Promise<ChatResponse> {
-  const response = await fetch("/api/chat", {
+  const response = await fetch(`${API_BASE}/api/chat`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

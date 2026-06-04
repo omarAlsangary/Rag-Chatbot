@@ -4,7 +4,7 @@ import fitz  # PyMuPDF
 from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
@@ -16,7 +16,7 @@ if os.path.exists(".env.local"):
     load_dotenv(dotenv_path=".env.local")
 
 # In-memory session store (wiped on serverless cold starts)
-sessions: dict[str, FAISS] = {}
+sessions: dict[str, Chroma] = {}
 
 def ingest_pdf(file_bytes: bytes) -> tuple[str, int, int]:
     """
@@ -50,7 +50,7 @@ def ingest_pdf(file_bytes: bytes) -> tuple[str, int, int]:
 
     # Compute embeddings and store in FAISS index
     embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
-    db = FAISS.from_documents(chunks, embeddings)
+    db = Chroma.from_documents(chunks, embeddings)
     
     # Store session
     session_id = str(uuid.uuid4())
